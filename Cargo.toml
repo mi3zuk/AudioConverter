@@ -1,0 +1,15 @@
+# Cargo.toml
+[package]
+name    = "AudioConverter"
+version = "0.1.0"
+edition = "2021"
+include = ["main.rs", "ffmpeg.exe", "NotoSansJP-Regular.ttf"]
+
+[dependencies]
+eframe = "0.24"
+winapi = { version = "0.3", features = ["winuser", "windef"] }
+rfd    = "0.9"
+unicode-normalization = "0.1"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser"] }
