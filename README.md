@@ -1,5 +1,7 @@
-# AudioConverter
+# AudioFileConverter
 **Created by [Copiot](https://copilot.microsoft.com/)**
+
+<img src="AudioFileConverter.png" width="10%">
 
 主な音声ファイルを変換します
 
