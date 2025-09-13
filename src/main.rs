@@ -1,6 +1,6 @@
 #![windows_subsystem = "windows"]
 
-use eframe::{egui, App, CreationContext, Frame, NativeOptions};
+use eframe::{egui, App, CreationContext, Frame};
 use eframe::egui::Widget;
 use rfd::FileDialog;
 use std::{
@@ -11,6 +11,8 @@ use std::{
     thread,
 };
 use unicode_normalization::UnicodeNormalization;
+use eframe::egui::ViewportBuilder;
+use image::GenericImageView;
 
 #[cfg(windows)]
 use std::os::windows::process::CommandExt;
@@ -352,12 +354,25 @@ impl App for AudioApp {
 }
 
 fn main() {
-    let mut opts = NativeOptions::default();
-    opts.viewport.min_inner_size = Some(egui::Vec2::new(600.0, 400.0));
-
+    let bytes = include_bytes!("../AudioFileConverter.png");
+    let img = image::load_from_memory(bytes).expect("Failed to load icon");
+    let (w, h) = img.dimensions();
+    let rgba = img.to_rgba8().into_raw();
+    let viewport = ViewportBuilder::default()
+        .with_inner_size([1000.0, 800.0])
+        .with_icon(egui::IconData {
+            rgba,
+            width: w,
+            height: h,
+        })
+        .with_min_inner_size(egui::Vec2::new(600.0, 400.0));
+    let options = eframe::NativeOptions {
+        viewport,
+        ..Default::default()
+    };
     let _ = eframe::run_native(
         "AudioConverter",
-        opts,
+        options,
         Box::new(|cc| Box::new(AudioApp::new(cc))),
     );
 }
